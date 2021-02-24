@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LanguageFeatures.Models
 {
@@ -19,6 +20,26 @@ namespace LanguageFeatures.Models
             foreach (Product prod in productEnum)
             {
                 if ((prod?.Price ?? 0) >= minimumPrice)
+                {
+                    yield return prod;
+                }
+            }
+        }
+        public static IEnumerable<Product> FilterByName(
+        this IEnumerable<Product> productEnum, char firstLetter)
+        {
+            foreach (Product prod in productEnum)
+            {
+                if (prod?.Name?[0] == firstLetter)
+                {
+                    yield return prod;
+                }
+            }
+        }
+        public static IEnumerable<Product> Filter(this IEnumerable<Product> productenum, Func<Product, bool> selector) {
+            foreach (Product prod in productenum)
+            {
+                if (selector(prod))
                 {
                     yield return prod;
                 }
